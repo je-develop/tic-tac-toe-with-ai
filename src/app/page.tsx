@@ -22,8 +22,8 @@ export default function Home() {
   const [board, setBorad] = useState(intialBoradState);
   const [currentPlayer, setCurrentPlayer] = useState<string>("X")
   const [status, setStatus] = useState<{ status: string, winner: string }>({ status: gameStatus.ONGOING, winner: "" })
-  const [xWinnerCount, setXWinnerCount] = useState<number>(0)
-  const [oWinnerCount, setOWinnerCount] = useState<number>(0)
+  const [xWinnerCount, setXWinnerCount] = useState<{ winingCount: number, continue: number }>({ winingCount: 0, continue: 0 })
+  const [oWinnerCount, setOWinnerCount] = useState<{ winingCount: number, continue: number }>({ winingCount: 0, continue: 0 })
 
   const onCheckWinner = useCallback(() => {
     const winner = { isWinner: false, who: '' }
@@ -51,13 +51,18 @@ export default function Home() {
 
     if (winner.isWinner) {
       setStatus({ status: gameStatus.WINNER, winner: winner.who })
-      if (winner.who === 'O') setOWinnerCount((prev) => prev + 1)
-      else setXWinnerCount((prev) => prev + 1)
+      if (winner.who === 'O') {
+        setOWinnerCount((prev) => ({ winingCount: prev.winingCount + 1, continue: prev.continue + 1 }))
+        setXWinnerCount((prev) => ({ winingCount: prev.winingCount - 1, continue: 0 }))
+      }
+      else {
+        setXWinnerCount((prev) => ({ winingCount: prev.winingCount + 1, continue: prev.continue + 1 }))
+        setOWinnerCount((prev) => ({ winingCount: prev.winingCount - 1, continue: 0 }))
+      }
     }
 
     return winner.isWinner
   }, [board])
-
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const filterMultipleOs = (boradData: any) => {
@@ -118,6 +123,11 @@ export default function Home() {
   }
 
   useEffect(() => {
+    if (xWinnerCount.continue === 3) setXWinnerCount((prev) => ({ winingCount: prev.winingCount + 2, continue: 0 }))
+    if (oWinnerCount.continue === 3) setOWinnerCount((prev) => ({ winingCount: prev.winingCount + 2, continue: 0 }))
+  }, [oWinnerCount.continue, xWinnerCount.continue])
+
+  useEffect(() => {
     if (currentPlayer === "O") {
       callAI()
     }
@@ -130,8 +140,8 @@ export default function Home() {
           <div className="flex tems-center">
             <div className="flex flex-col justify-center pr-10">
               <p className="font-bold">SCORE</p>
-              <div><span className="text-red-600 font-bold">X</span> :  {xWinnerCount}</div>
-              <div><span className="text-blue-600 font-bold">O</span> :  {oWinnerCount}</div>
+              <div><span className="text-red-600 font-bold">X</span> :  {xWinnerCount.winingCount}</div>
+              <div><span className="text-blue-600 font-bold">O</span> :  {oWinnerCount.winingCount}</div>
             </div>
           </div>
           <div className="flex flex-col items-center">
