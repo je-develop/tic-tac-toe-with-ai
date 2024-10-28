@@ -18,6 +18,7 @@ bun dev
 
 # First you have to create .env file with this value
 
+```bash
 germini api key
 https://ai.google.dev/gemini-api/docs/api-key
 
@@ -32,7 +33,11 @@ AUTH0_ISSUER_BASE_URL=''
 AUTH0_CLIENT_ID=''
 AUTH0_CLIENT_SECRET=''
 
+```
+
 # After that run this command
 
+```bash
 npm i
 npm run dev
+```
