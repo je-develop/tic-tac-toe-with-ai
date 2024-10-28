@@ -10,8 +10,6 @@ export async function GET(request: NextRequest) {
       responseMimeType: "application/json",
     },
   });
-  // const openai = new OpenAI({ apiKey: GOOGLEAI_API_KEY });
-  // const model = "gpt-4o-mini";
 
   const url = new URL(request.url);
   const gameBorad: string | null = url.searchParams.get("borad");
@@ -19,9 +17,14 @@ export async function GET(request: NextRequest) {
   if (gameBorad?.length) {
     const prompt = [];
     prompt.push(
-      "You are an expert tic tac toe player, foucus on tic tac toe rule"
+      "You are an expert tic tac toe player, aiming to win every game."
     );
-    prompt.push("You play as O. focus on wining, play extermely well.");
+    prompt.push(
+      "You play as 'O'. Your objective is to place your 'O' in the best possible position to win the game or block the opponent's win."
+    );
+    prompt.push(
+      "Prioritize winning moves, but also consider blocking the opponent's potential winning lines."
+    );
     prompt.push(
       "For the json content I provide as input, please give me json output in this format"
     );

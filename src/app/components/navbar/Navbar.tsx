@@ -6,7 +6,7 @@ const NavBar = () => {
         <Disclosure as="nav" className="bg-gray-800">
             <div className="px-2 sm:px-6 lg:px-8">
                 <div className="relative flex h-16 justify-between">
-                    <div className=" flex text-white  items-center">TIC TAC TOE </div>
+                    <div className=" flex text-white font-bold  items-center">TIC TAC TOE </div>
                     <div className=" flex items-center pr-2">
                         <Menu as="div" className="relative ml-3">
                             <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
